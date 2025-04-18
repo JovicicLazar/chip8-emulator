@@ -1,10 +1,10 @@
-#ifndef FONTS_H
-#define FONTS_H
+#pragma once
 
 #include <cstdint>
 
 const unsigned int FONTSET_SIZE = 80;
-uint8_t fontset[FONTSET_SIZE]   = 
+
+inline constexpr uint8_t fontset[FONTSET_SIZE] = 
 {
 	0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
 	0x20, 0x60, 0x20, 0x20, 0x70, // 1
@@ -24,4 +24,12 @@ uint8_t fontset[FONTSET_SIZE]   =
 	0xF0, 0x80, 0xF0, 0x80, 0x80  // F
 };
 
-#endif
+// Example on how are these fonts funciton
+/*
+DEC   HEX    BIN         RESULT    DEC   HEX    BIN         RESULT
+240   0xF0   1111 0000    ****     240   0xF0   1111 0000    ****
+144   0x90   1001 0000    *  *      16   0x10   0001 0000       *
+144   0x90   1001 0000    *  *      32   0x20   0010 0000      *
+144   0x90   1001 0000    *  *      64   0x40   0100 0000     *
+240   0xF0   1111 0000    ****      64   0x40   0100 0000     *
+*/

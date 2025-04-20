@@ -25,6 +25,14 @@ class Chip8 {
 
         void Cycle();
 
+        uint8_t* get_keypad() {
+            return keypad;
+        }
+
+        uint32_t* get_video() {
+            return video;
+        }        
+
     private:
         // CHIP8 operations
         // See: http://devernay.free.fr/hacks/chip8/C8TECH10.HTM
@@ -69,10 +77,12 @@ class Chip8 {
         void TableE();
         void TableF();
         void OP_NULL();
-
+    
     public:
-        uint8_t delayTimer {};
         uint8_t soundTimer {};
+
+    private:
+        uint8_t delayTimer {};
         uint8_t sp {};
         uint8_t registers[REGISTERS_NUMBER] {};
         uint8_t memory[MEMORY_SIZE] {};
@@ -92,4 +102,5 @@ class Chip8 {
         Chip8Func table8[0xE + 1];
         Chip8Func tableE[0xE + 1];
         Chip8Func tableF[0x65 + 1];    
+
 };

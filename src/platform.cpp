@@ -1,10 +1,25 @@
 #include "../headers/platform.hpp"
+#include <vector>
 
 Platform::Platform(const char* title, int windowWidth, int windowHeight, int textureWidth, int textureHeight)
     : textureWidth(textureWidth), textureHeight(textureHeight)
 {
+    //SetTargetFPS(60);
     InitWindow(windowWidth, windowHeight, title);
     renderTexture = LoadRenderTexture(textureWidth, textureHeight);
+
+    InitAudioDevice();
+    Wave wave = { 0 };
+    wave.frameCount = 44100 / 60;
+    wave.sampleRate = 44100;
+    wave.sampleSize = 16;
+    wave.channels = 1;
+    std::vector<int16_t> data(wave.frameCount);
+    for (std::size_t i = 0; i < data.size(); ++i) {
+        data[i] = (i % 100 < 50) ? 10000 : -10000;
+    }
+    wave.data = data.data();
+    beep = LoadSoundFromWave(wave);
 }
 
 Platform::~Platform()
@@ -13,8 +28,14 @@ Platform::~Platform()
     CloseWindow();
 }
 
-void Platform::Update(const void* buffer, int pitch)
+void Platform::PlayBeep() {
+    PlaySound(beep);
+}
+
+void Platform::Update(const void* buffer, const uint8_t* soundTimer, int pitch)
 {
+    if(*soundTimer > 1) PlayBeep();
+    
     UpdateTexture(renderTexture.texture, buffer);
     BeginDrawing();
     ClearBackground(BLACK);

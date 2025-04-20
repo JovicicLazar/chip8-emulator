@@ -11,8 +11,8 @@ int main(int argc, char* argv[]) {
 		std::exit(EXIT_FAILURE);
 	}
 
-    int videoScale = std::stoi(argv[1]);
-    int cycleDelay = std::stoi(argv[2]);
+    int videoScale 			= std::stoi(argv[1]);
+    int cycleDelay 			= std::stoi(argv[2]);
     const char* romFilename = argv[3];
 
     Platform platform("CHIP-8 Emulator", VIDEO_WIDTH * videoScale, VIDEO_HEIGHT * videoScale, VIDEO_WIDTH, VIDEO_HEIGHT);
@@ -20,25 +20,27 @@ int main(int argc, char* argv[]) {
 	Chip8 chip8;
 	chip8.LoadROM(romFilename);
 
-    int videoPitch = sizeof(chip8.video[0]) * VIDEO_WIDTH;
-
+	uint32_t* video    = chip8.get_video();
+	uint8_t* keypad    = chip8.get_keypad();
+    int videoPitch     = sizeof(video[0]) * VIDEO_WIDTH;
 	auto lastCycleTime = std::chrono::high_resolution_clock::now();
-	bool quit = false;
+	bool quit          = false;
 
 	while (!quit)
 	{
-		quit = platform.ProcessInput(chip8.keypad);
+		quit = platform.ProcessInput(keypad);
 
 		auto currentTime = std::chrono::high_resolution_clock::now();
 		float dt = std::chrono::duration<float, std::chrono::milliseconds::period>(currentTime - lastCycleTime).count();
 
 		if (dt > cycleDelay)
 		{
+			
 			lastCycleTime = currentTime;
 
 			chip8.Cycle();
 
-			platform.Update(chip8.video, videoPitch);
+			platform.Update(chip8.get_video(), &chip8.soundTimer, videoPitch);
 		}
 	}
 

@@ -8,7 +8,7 @@ class Platform {
     Platform(const char *title, int windowWidth, int windowHeight,
              int textureWidth, int textureHeight);
     ~Platform();
-
+      
     void Update(const void *buffer, const uint8_t *soundTimer, int pitch);
     bool ProcessInput(uint8_t *keys);
 

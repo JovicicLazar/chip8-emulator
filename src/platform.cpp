@@ -27,7 +27,9 @@ Platform::~Platform() {
     CloseWindow();
 }
 
-void Platform::PlayBeep() { PlaySound(beep); }
+void Platform::PlayBeep() { 
+    PlaySound(beep); 
+}
 
 void Platform::Update(const void *buffer, const uint8_t *soundTimer,
                       int pitch) {

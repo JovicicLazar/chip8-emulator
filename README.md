@@ -25,7 +25,7 @@ sudo apt install libraylib-dev make g++
 
 ## Build
 ```bash
-git clone https://github.com/yourusername/chip8-emulator.git
+git clone https://github.com/JovicicLazar/chip8-emulator.git
 cd chip8-emulator
 make
 ```
